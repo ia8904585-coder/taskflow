@@ -1,0 +1,16 @@
+{
+  "name": "تطبيق المحاضرات و المهام",
+  "short_name": "TaskFlow",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "image.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+   
+  ]
+}
