@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#4f46e5">
 </head>
 <body>
 
@@ -26,17 +26,17 @@
         <button type="button" class="btn" id="add-lecture-btn">+ إضافة محاضرة</button>
       </div>
 
-      <!-- نموذج إضافة محاضرة (يمكنك إخفاؤه وإظهاره بـ JavaScript) -->
+      <!-- نموذج إضافة محاضرة -->
       <form class="form" id="lecture-form">
         <input type="text" id="lecture-subject" name="subject" placeholder="اسم المادة" required>
         <select id="lecture-day" name="day">
-        <option value="الأحد">الأحد</option>
-<option value="الاثنين">الاثنين</option>
-<option value="الثلاثاء">الثلاثاء</option>
-<option value="الأربعاء">الأربعاء</option>
-<option value="الخميس">الخميس</option>
-<option value="الجمعة">الجمعة</option>
-<option value="السبت">السبت</option>
+          <option value="الأحد">الأحد</option>
+          <option value="الاثنين">الاثنين</option>
+          <option value="الثلاثاء">الثلاثاء</option>
+          <option value="الأربعاء">الأربعاء</option>
+          <option value="الخميس">الخميس</option>
+          <option value="الجمعة">الجمعة</option>
+          <option value="السبت">السبت</option>
         </select>
         <input type="time" id="lecture-start" name="start" aria-label="وقت البداية">
         <input type="time" id="lecture-end" name="end" aria-label="وقت النهاية">
@@ -44,22 +44,9 @@
         <button type="button" class="btn" id="save-lecture-btn">حفظ</button>
       </form>
 
-      <div class="table-wrap">
-        <table class="table" id="lectures-table">
-          <thead>
-            <tr>
-              <th>اليوم</th>
-              <th>الوقت</th>
-              <th>المادة</th>
-              <th>القاعة</th>
-              <th><span class="sr-only">إجراءات</span></th>
-            </tr>
-          </thead>
-          <!-- كل صف محاضرة له بنية موحدة -->
-          <tbody id="lecture-list">
-           
-          </tbody>
-        </table>
+      <!-- حاوية عرض المحاضرات مجدولة حسب الأيام (بدون تكرار لاسم اليوم) -->
+      <div id="lecture-list" class="lecture-days-container">
+         
       </div>
     </section>
 
@@ -67,7 +54,6 @@
     <section class="card" id="tasks-section">
       <div class="card-head">
         <h2>المهام</h2>
-      <!--   <p class="muted"><span id="completed-count">1</span> من <span id="task-count">3</span> مكتملة</p> -->
       </div>
 
       <form class="form" id="task-form">
@@ -80,7 +66,7 @@
           <option value="منخفضة">منخفضة</option>
         </select>
         <select id="task-category" name="category" aria-label="التصنيف">
-          <option value=">الدراسة">الدراسة</option>
+          <option value="الدراسة">الدراسة</option>
           <option value="العمل">العمل</option>
           <option value="شخصي">شخصي</option>
         </select>
