@@ -1,7 +1,8 @@
 {
   "name": "تطبيق المحاضرات و المهام",
   "short_name": "TaskFlow",
-  "start_url": "/",
+  "start_url": "/taskflow",
+  "scope":"/taskflow",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
