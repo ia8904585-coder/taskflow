@@ -45,7 +45,7 @@ btnsave.onclick = function(){
     shwedata();
 }
 
-function delet(){
+function delt(){
     day.value = '';
     starttim.value = '';
     endtim.value = '';
@@ -58,7 +58,6 @@ function shwedata(){
     let container = document.getElementById('lecture-list');
     let groupedByDay = {};
 
-    // تجميع المحاضرات حسب اليوم والاحتفاظ بالإندكس الأصلي للحذف
     databases.forEach((item, originalIndex) => {
         let dayName = item.dayt;
         if (!groupedByDay[dayName]) {
@@ -74,7 +73,6 @@ function shwedata(){
         return;
     }
 
-    // بناء الواجهة لكل يوم يحتوي على محاضراته متسلسلة تحته
     for (let dayName in groupedByDay) {
         htmlOutput += `
             <div class="day-group-card" style="margin-bottom: 15px; padding: 12px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
@@ -202,3 +200,74 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+
+// دالة فحص المحاضرات والتنبيه وإضافتها للمهام
+function cheklast() {
+    const tody = new Date().toLocaleDateString('ar-LY', { weekday: 'long' });
+    const now = new Date();
+
+    let mylecture = JSON.parse(localStorage.getItem('databases')) || [];
+
+    mylecture.forEach(lecture => {
+        if (lecture.dayt === tody) {
+            const [hours, minutes] = lecture.starttimt.split(':');
+            const lectureTime = new Date();
+            lectureTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+
+            const timeDiffInMs = lectureTime - now;
+            const timeDiffInHours = timeDiffInMs / (1000 * 60 * 60);
+
+            if (timeDiffInHours > 0 && timeDiffInHours <= 5 && !lecture.notified) {
+                
+                if ("Notification" in window && Notification.permission === "granted") {
+                    new Notification("تذكير محاضرة جديدة", {
+                        body: `لديك محاضرة ${lecture.metr} الساعة ${lecture.starttimt}`
+                    });
+                } else {
+                    alert(`تذكير: لديك محاضرة ${lecture.metr} الساعة ${lecture.starttimt}`);
+                }
+
+                addLectureToTasks(lecture.metr, lecture.starttimt);
+                lecture.notified = true;
+            }
+        }
+    });
+
+    localStorage.setItem('databases', JSON.stringify(mylecture));
+}
+
+// دالة طلب إذن الإشعارات
+function requestNotificationPermission() {
+    if ("Notification" in window) {
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    console.log("تم السماح بالإشعارات بنجاح!");
+                }
+            });
+        }
+    }
+}
+
+// دالة إضافة المحاضرة للمهام وتحديث الواجهة مباشرة
+function addLectureToTasks(lectureTitle, lectureTime) {
+    datatask = JSON.parse(localStorage.getItem('datatask')) || [];
+
+    let newLectureTask = {
+        nwetask: `حضور محاضرة: ${lectureTitle} (${lectureTime})`,
+        dattask: new Date().toISOString().split('T')[0],
+        timtask: lectureTime,
+        Category: 'الدراسة',
+        Priority: 'متوسطة',
+        done: false
+    };
+
+    datatask.push(newLectureTask);
+    localStorage.setItem('datatask', JSON.stringify(datatask));
+    swwe2();
+}
+
+// تفعيل طلب الإذن والفحص الدوري عند فتح التطبيق
+requestNotificationPermission();
+cheklast();
+setInterval(cheklast, 300000); // فحص كل 5 دقائق
